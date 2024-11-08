@@ -37,7 +37,10 @@ def get_latest_version(org, project, version):
         print(f"GitHub API response not ok: {response.status_code}")
         return None
     latest_version = response.json()["tag_name"]
-    return latest_version
+    if latest_version.startswith('v'):
+    	return latest_version.replace('v','',1)
+    else:
+    	return latest_version
 
 
 # Get url response's content hash (SHA256)
