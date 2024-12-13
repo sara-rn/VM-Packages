@@ -404,7 +404,11 @@ function VM-Install-From-Zip {
         [Parameter(Mandatory=$false)]
         [string] $executableName, # Executable name, needed if different from "$toolName.exe"
         [Parameter(Mandatory=$false)]
+<<<<<<< HEAD
         [switch] $verifySignature,
+=======
+        [bool] $verifySignature=$false,
+>>>>>>> 121eb56 (Add signature verify arg to VM-Install-From-Zip)
         [Parameter(Mandatory=$false)]
         [switch] $withoutBinFile, # Tool should not be installed as a bin file
         # Examples:
@@ -1910,6 +1914,33 @@ function VM-Unzip-Recursively {
             # Remove ZIP after extracting it
             Remove-Item $file -Force
             Write-Host "  [+] UNZIPPED '$file'" -ForegroundColor Green
+        }
+    }
+}
+
+
+
+function VM-Get-Category {
+    Param
+    (
+        [Parameter(Mandatory=$true)]
+        [string] $installPath
+
+    )
+    $toolDir = "$(Split-Path -parent (Split-Path -parent $installPath))"
+    $packageName = Split-Path -Path $toolDir -Parent | Split-Path -Leaf
+    if (Test-Path ($toolDir)){
+        $nuspecFilePath = Join-Path $toolDir "$packageName.nuspec" -Resolve
+        $nuspectContent = [xml](Get-Content $nuspecFilePath)
+        try {
+        $category = $nuspectContent.SelectSingleNode("//metadata/tags").InnerText
+        #$xmlObject = Get-Content -Path nuspecFilePath | ConvertFrom-Xml
+        #$category = $xmlObject.metadata.tags
+        Write-Host "Tags: $category"
+        return $category
+        } catch {
+            VM-Write-Log-Exception $_
+            return ""
         }
     }
 }
