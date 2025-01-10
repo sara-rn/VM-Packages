@@ -65,6 +65,21 @@ NUSPEC_TEMPLATE_NODE = r"""<?xml version="1.0" encoding="utf-8"?>
 </package>
 """
 
+NUSPEC_TEMPLATE_PIP = r"""<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>{pkg_name}.vm</id>
+    <version>{version}</version>
+    <authors>{authors}</authors>
+    <description>{description}</description>
+    <dependencies>
+      <dependency id="common.vm" version="0.0.0.20240514" />
+      <dependency id="python3.vm" />
+    </dependencies>
+  </metadata>
+</package>
+"""
+
 """
 Needs the following format strings:
     pkg_name="...", version="...", authors="...", description="...", dependency="...", dependency_version="..."
@@ -334,6 +349,7 @@ def create_ida_plugin_template(packages_path, **kwargs):
 def create_pip_template(packages_path, **kwargs):
     create_template(
         PIP_TEMPLATE,
+        nuspec_template=NUSPEC_TEMPLATE_PIP,
         uninstall_template=PIP_UNINSTALL_TEMPLATE,
         packages_path=packages_path,
         pkg_name=kwargs.get("pkg_name"),
