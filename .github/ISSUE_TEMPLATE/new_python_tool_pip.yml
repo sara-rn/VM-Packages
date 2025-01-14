@@ -25,6 +25,18 @@ body:
       placeholder: ex. magika
     validations:
       required: true
+  - type: dropdown
+    id: type
+    validations:
+      required: true
+    attributes:
+      label: Package type
+      description: |
+        - **`PIP`** - A Python tool installed with `pip install <tool_name>`.
+
+        For other types of tools, use a different issue template.
+      options:
+        - PIP
   - type: input
     id: version
     attributes:
