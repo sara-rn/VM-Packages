@@ -244,7 +244,7 @@ VM-Uninstall-IDA-Plugin -pluginName $pluginName
 PIP_UNINSTALL_TEMPLATE = r"""$ErrorActionPreference = 'Continue'
 Import-Module vm.common -Force -DisableNameChecking
 
-$pluginName = '{tool_name}'
+$toolName = '{tool_name}'
 $category = '{category}'
 
 VM-Uninstall-With-Pip $toolName $category
