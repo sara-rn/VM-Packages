@@ -407,6 +407,7 @@ def create_template(
         f.write(
             template.format(
                 tool_name=tool_name,
+                version=version,
                 category=category,
                 target_url=target_url,
                 target_hash=target_hash,
