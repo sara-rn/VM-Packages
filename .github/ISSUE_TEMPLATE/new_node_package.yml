@@ -46,6 +46,13 @@ body:
       placeholder: ex. 0.0.0.20240513
     validations:
       required: true
+  - type: input
+    id: arguments
+    attributes:
+      label: Arguments
+      description: |	
+        Command-line arguments to pass to the tool when running it from the `Tools` directory. For example `--help`.
+      placeholder: ex. --help
   - type: dropdown
     id: category
     validations:
