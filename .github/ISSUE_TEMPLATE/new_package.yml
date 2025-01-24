@@ -62,6 +62,12 @@ body:
       placeholder: ex. 1.4.11
     validations:
       required: true
+  - type: input
+    id: arguments
+    attributes:
+      label: Arguments
+      description: |	
+        Tool's execution argument. If its a console application, which arguments will be passed to be executed by the destination Shortcut File. If no argument is provided the default is `--help`.
   - type: dropdown
     id: category
     validations:

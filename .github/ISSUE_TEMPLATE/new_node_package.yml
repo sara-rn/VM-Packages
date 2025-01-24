@@ -46,6 +46,12 @@ body:
       placeholder: ex. 0.0.0.20240513
     validations:
       required: true
+  - type: input
+    id: arguments
+    attributes:
+      label: Arguments
+      description: |	
+        Tool's execution argument. When executed which argument will be passed to the destination Shortcut File. If no argument is provided the default is `--help`.
   - type: dropdown
     id: category
     validations:
