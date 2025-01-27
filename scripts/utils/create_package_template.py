@@ -120,8 +120,9 @@ Import-Module vm.common -Force -DisableNameChecking
 
 $toolName = '{tool_name}'
 $category = '{category}'
+$arguments = '{arguments}'
 
-VM-Install-Node-Tool -toolName $toolName -category $category -arguments "--help"
+VM-Install-Node-Tool -toolName $toolName -category $category -arguments $arguments
 """
 
 """
@@ -155,8 +156,9 @@ $category = '{category}'
 
 $exeUrl = '{target_url}'
 $exeSha256 = '{target_hash}'
+$arguments = '{arguments}'
 
-VM-Install-Single-Exe $toolName $category $exeUrl -exeSha256 $exeSha256 -consoleApp ${console_app}
+VM-Install-Single-Exe $toolName $category $exeUrl -exeSha256 $exeSha256 -consoleApp ${console_app} -arguments $arguments
 """
 
 """
@@ -200,8 +202,9 @@ Import-Module vm.common -Force -DisableNameChecking
 $toolName = '{tool_name}'
 $category = '{category}'
 $version = '=={version}'
+$arguments = '{arguments}'
 
-VM-Install-With-Pip -toolName $toolName -category $category -version $version
+VM-Install-With-Pip -toolName $toolName -category $category -version $version -arguments $arguments
 """
 
 """
@@ -311,6 +314,7 @@ def create_single_exe_template(packages_path, **kwargs):
         description=kwargs.get("description"),
         tool_name=kwargs.get("tool_name"),
         category=kwargs.get("category"),
+        arguments=kwargs.get("arguments"),
         target_url=kwargs.get("target_url"),
         target_hash=kwargs.get("target_hash"),
         console_app=kwargs.get("console_app"),
@@ -358,6 +362,7 @@ def create_pip_template(packages_path, **kwargs):
         description=kwargs.get("description"),
         tool_name=kwargs.get("tool_name"),
         category=kwargs.get("category"),
+        arguments=kwargs.get("arguments"),
     )
 
 def create_template(
@@ -371,6 +376,7 @@ def create_template(
     description="",
     tool_name="",
     category="",
+    arguments="",
     target_url="",
     target_hash="",
     shim_path="",
@@ -408,6 +414,7 @@ def create_template(
                 tool_name=tool_name,
                 version=version,
                 category=category,
+                arguments=arguments,
                 target_url=target_url,
                 target_hash=target_hash,
                 shim_path=shim_path,
@@ -470,6 +477,7 @@ TYPES = {
             "description",
             "tool_name",
             "category",
+            "arguments",
         ],
     },
     "SINGLE_EXE": {
@@ -482,6 +490,7 @@ TYPES = {
             "authors",
             "description",
             "tool_name",
+            "arguments",
             "category",
             "target_url",
             "target_hash",
@@ -529,6 +538,7 @@ TYPES = {
             "description",
             "tool_name",
             "category",
+            "arguments",
         ],
     },
 }
@@ -594,6 +604,7 @@ def main(argv=None):
     parser.add_argument("--authors", type=str, default="", help="Comma separated list of authors for tool")
     parser.add_argument("--tool_name", type=str, default="", help="Name of tool (usually the file name with the '.exe') or plugin (the .py or .dll plugin file)")
     parser.add_argument("--category", type=str, default="", choices=CATEGORIES, help="Category for tool")
+    parser.add_argument("--arguments", type=str, default="--help", help="Command-line arguments for the execution")
     parser.add_argument("--description", type=str, default="", help="Description for tool")
     parser.add_argument("--dependency", type=str, default="", help="Metapackage dependency")
     parser.add_argument("--target_url", type=str, default="", help="URL to target file (zip or executable)")
