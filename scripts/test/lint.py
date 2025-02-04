@@ -94,6 +94,7 @@ class IncludesRequiredFieldsOnly(Lint):
         "description",
         "authors",
         "dependencies",
+        "tags",
     ]
     recommendation = f"Only include required fields: {', '.join(allowed_fields)}"
 
@@ -280,6 +281,7 @@ NUSPEC_LINTS = (
     DependencyContainsUppercaseChar(),
     VersionNotUpdated(),
     PackageIdNotMatchingFolderOrNuspecName(),
+    UsesInvalidCategoryNuspec()
 )
 
 
@@ -412,6 +414,53 @@ def lint(path) -> Dict[str, list]:
             ret[str(path)] = violations
 
     return ret
+
+
+class UsesInvalidCategory(Lint):
+    # Some packages don't have a category (we don't create a link in the tools directory)
+    EXCLUSIONS = [
+        ".dbgchild.vm",
+        ".ollydumpex.vm",
+        ".scyllahide.vm",
+        "common.vm",
+        "debloat.vm",
+        "dokan.vm",
+        "googlechrome.vm",
+        "ida.plugin",
+        "installer.vm",
+        "libraries.python2.vm",
+        "libraries.python3.vm",
+        "microsoft-office.vm",
+        "notepadpp.plugin.",
+        "npcap.vm",
+        "openjdk.vm",
+        "pdbs.pdbresym.vm",
+        "python3.vm",
+        "x64dbgpy.vm",
+        "vscode.extension.",
+        "chrome.extensions.vm",
+    ]
+    print (__file__)
+    root_path = os.path.abspath(os.path.join(__file__, "../../.."))
+    categories_txt = os.path.join(root_path, "categories.txt")
+    with open(categories_txt) as file:
+        CATEGORIES = [line.rstrip() for line in file]
+        logger.debug(CATEGORIES)
+
+    name = "Uses an invalid category"
+    recommendation = f"Set $category to a category in {categories_txt} or exclude the package in the linter"
+
+    def check(self, path):
+        if any([exclusion in str(path) for exclusion in self.EXCLUSIONS]):
+            return False
+
+        # utf-8-sig ignores BOM
+        file_content = open(path, "r", encoding="utf-8-sig").read()
+
+        match = re.search(r"\$category = ['\"](?P<tags>[\w &/]+)['\"]", file_content)
+        if not match or match.group("category") not in self.CATEGORIES:
+            return True
+        return False
 
 
 def main(argv=None):
