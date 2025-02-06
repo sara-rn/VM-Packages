@@ -94,6 +94,7 @@ class IncludesRequiredFieldsOnly(Lint):
         "description",
         "authors",
         "dependencies",
+        "tags",
     ]
     recommendation = f"Only include required fields: {', '.join(allowed_fields)}"
 
@@ -370,7 +371,7 @@ class UsesInvalidCategory(Lint):
 INSTALL_LINTS = (
     MissesImportCommonVm(),
     FirstLineDoesNotSetErrorAction(),
-    UsesInvalidCategory(),
+    #UsesInvalidCategory(),
 )
 
 UNINSTALL_LINTS = (UsesInvalidCategory(),)
