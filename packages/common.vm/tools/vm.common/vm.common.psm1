@@ -1913,3 +1913,32 @@ function VM-Unzip-Recursively {
         }
     }
 }
+
+function VM-Get-Category {
+    Param
+    (
+        [Parameter(Mandatory=$true)]
+        [string] $installPath
+
+    )
+    $toolDir = "$(Split-Path -parent (Split-Path -parent $installPath))"
+    Write-Host "ToolDir: $toolDir"
+    $packageName = Split-Path -Path (Split-Path -parent $installPath) | Split-Path -Leaf
+    Write-Host "Package Name: $packageName"
+    $nuspec = $packageName + ".nuspec"
+    if (Test-Path ($toolDir)){
+        $nuspecFilePath = Join-Path $toolDir $nuspec -Resolve
+        Write-Host "Nuspecc file path: $nuspecFilePath"
+        $nuspectContent = [xml](Get-Content $nuspecFilePath)
+        try {
+        $category = $nuspectContent.SelectSingleNode("//metadata/tags").InnerText
+        #$xmlObject = Get-Content -Path nuspecFilePath | ConvertFrom-Xml
+        #$category = $xmlObject.metadata.tags
+        #Write-Host "Tags: $category""
+        return $category
+        } catch {
+            VM-Write-Log-Exception $_
+            return ""
+        }
+    }
+}
