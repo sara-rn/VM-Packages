@@ -3,7 +3,7 @@ Import-Module vm.common -Force -DisableNameChecking
 
 try {
   $toolName = 'nc'
-  $category = 'Networking'
+  $category = VM-Get-Category($MyInvocation.MyCommand.Definition)
   $shimPath = 'bin\nc.exe'
 
   $shortcutDir = Join-Path ${Env:TOOL_LIST_DIR} $category
