@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 Import-Module vm.common -Force -DisableNameChecking
 
 $toolName = 'bstrings'
-$category = 'Utilities'
+$category = VM-Get-Category($MyInvocation.MyCommand.Definition)
 
 $zipUrl = 'https://download.mikestammer.com/net6/bstrings.zip'
 $zipSha256 = '1521031bab2843757bb701b75741a24154965ba219a57cbfefddb792c6d5b301'

@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 Import-Module vm.common -Force -DisableNameChecking
 
 $toolName = 'AmcacheParser'
-$category = 'Forensic'
+$category = VM-Get-Category($MyInvocation.MyCommand.Definition)
 
 $zipUrl = 'https://download.mikestammer.com/net6/AmcacheParser.zip'
 $zipSha256 = '7b78aa7f26287c6b9b3bf68d3bbccc372687760edf9ae84fafceaed3de535566'
