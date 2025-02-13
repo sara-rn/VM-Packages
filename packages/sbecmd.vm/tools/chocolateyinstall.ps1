@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 Import-Module vm.common -Force -DisableNameChecking
 
 $toolName = 'SBECmd'
-$category = 'Forensic'
+$category = VM-Get-Category($MyInvocation.MyCommand.Definition)
 
 $zipUrl = 'https://download.mikestammer.com/net6/SBECmd.zip'
 $zipSha256 = '76e68ea696cb94f3a26c5c05e01467bdd8e18503fabd55ce4065448251071595'

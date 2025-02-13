@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 Import-Module vm.common -Force -DisableNameChecking
 
 $toolName = 'VSCMount'
-$category = 'Forensic'
+$category = VM-Get-Category($MyInvocation.MyCommand.Definition)
 
 $zipUrl = 'https://download.mikestammer.com/net6/VSCMount.zip'
 $zipSha256 = '28927b892af255673432a962ac41f58f9be5cb3c7c0a2444556a01b033f066a7'
