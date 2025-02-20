@@ -4,29 +4,23 @@ $wikiContent = ""
 $packagesByCategory = @{}
 
 foreach ($package in $packages) {
-    $categoryFile = "$packagesDir/$package/tools/chocolateyinstall.ps1"
-    if (Test-Path $categoryFile) {
-        $categoryMatch = Select-String -Path $categoryFile -Pattern '\$category\s*=\s*["''](.+?)["'']' -AllMatches
-        if ($categoryMatch) {
-            $category = $categoryMatch.Matches.Groups[1].Value.Trim("'""")
-        } else {
-            $category = "Not Categorized"
-        }
-    } else {
-        $category = "Not Categorized"
-    }
-
-    if (-not ($packagesByCategory.ContainsKey($category))) {
-        $packagesByCategory[$category] = ""
-    }
 
     try {
         $nuspecFile = "$packagesDir\$package\$package.nuspec"
         if (Test-Path $nuspecFile) {
             $xml = [xml](Get-Content $nuspecFile)
             $description = $xml.package.metadata.description
+            $category = $xml.package.metadata.tags
+            if (-not $category){
+                $category = "Not Categorized"
+            } else {         
+                if (-not ($packagesByCategory.ContainsKey($category))) {
+                    $packagesByCategory[$category] = ""
+                }
+            }
         } else {
             $description = "Nuspec file not found."
+            $category = "Nuspec file not found."
         }
         if (-not $description) {
             $description = "Description not found in .nuspec."
