@@ -278,10 +278,12 @@ class PackageIdNotMatchingFolderOrNuspecName(Lint):
         
 class UsesInvalidCategory(Lint):
     # Some nuspec packages don't have a category
+    # excluded dcode because it fails to be installed
     EXCLUSIONS = [
         "common.vm",
         "debloat.vm",
         "installer.vm",
+        "dcode.vm",
     ]
     root_path = os.path.abspath(os.path.join(__file__, "../../.."))
     categories_txt = os.path.join(root_path, "categories.txt")
@@ -354,6 +356,7 @@ class FirstLineDoesNotSetErrorAction(Lint):
 
 class UsesCategoryFromNuspec(Lint):
     # Some packages don't have a category (we don't create a link in the tools directory)
+    # we exclude dcode since it fails to install, issue tracked in #1175
     EXCLUSIONS = [
         ".dbgchild.vm",
         ".ollydumpex.vm",
@@ -374,6 +377,7 @@ class UsesCategoryFromNuspec(Lint):
         "x64dbgpy.vm",
         "vscode.extension.",
         "chrome.extensions.vm",
+        "dcode.vm",
     ]
 
     
